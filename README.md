@@ -7,3 +7,8 @@ To use:
 - navigate in your console to the top ben12server folder (name is subject to change)
 - in your console, type: `py manage.py runserver`
 - in your browser, navigate to <a>127.0.0.1:8000/app</a>
+
+To update database models:
+1. Change ben12app/models.py
+2. run `py manage.py makemigrations ben12app`
+3. run `py manage.py migrate`
