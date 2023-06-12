@@ -8,8 +8,8 @@ class Client(models.Model):
     name = models.CharField(default="No name", max_length=50)
     date_of_birth = models.DateTimeField("Date of Birth")
     date_created = models.DateTimeField("Date of account creation")
-    last_measurement = models.DateTimeField("DateTime of last record")
-    last_time_alcohol_consumed = models.DateTimeField("Last alcohol consumption")
+    last_measurement = models.DateTimeField("DateTime of last record", blank=True)
+    last_time_alcohol_consumed = models.DateTimeField("Last alcohol consumption", blank=True)
     address = models.CharField(default="No address", max_length=50)
 
     def __str__(self):
