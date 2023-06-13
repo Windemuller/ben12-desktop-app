@@ -29,7 +29,7 @@ urlpatterns = [
         extra_context={'schema_url': 'openapi-schema-yaml'}
     ), name='swagger-ui'),
     path('openapi.yaml', get_schema_view(
-            title="Best API Service",
+            title="Ben12 API documentation",
             renderer_classes=[renderers.OpenAPIRenderer]
         ), name='openapi-schema-yaml'),
     path('openapi.json', get_schema_view(
