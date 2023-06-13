@@ -6,12 +6,12 @@ from .serializers import *
 
 
 class ClientAPIView(APIView):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs) -> Response:
         clients = Client.objects.all()
         serializer = ClientSerializer(clients, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs) -> Response:
         data = {
             'id': get_last_client_id() + 1,
             'name': request.data.get('name'),
@@ -25,3 +25,27 @@ class ClientAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ClientDetailView(APIView):
+    def get_client(self, client_id: int) -> Client or None:
+        try:
+            return Client.objects.get(id=client_id)
+        except Client.DoesNotExist:
+            return None
+
+    def get(self, request, client_id: int, *args, **kwargs) -> Response:
+        client_instance = self.get_client(client_id)
+        if not client_instance:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ClientSerializer(client_instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, client_id: int, *args, **kwargs) -> Response:
+        client_instance = self.get_client(client_id)
+        if not client_instance:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        client_instance.delete()
+        return Response(status=status.HTTP_200_OK)
