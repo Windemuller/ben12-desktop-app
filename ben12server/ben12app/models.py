@@ -3,13 +3,18 @@ from django.db import models
 
 # Create your models here.
 
+def get_last_client_id():
+    last = Client.objects.order_by('id').last()
+    return last.id if last is not None else 0
+
+
 class Client(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(default="No name", max_length=50)
     date_of_birth = models.DateTimeField("Date of Birth")
     date_created = models.DateTimeField("Date of account creation")
-    last_measurement = models.DateTimeField("DateTime of last record", blank=True)
-    last_time_alcohol_consumed = models.DateTimeField("Last alcohol consumption", blank=True)
+    last_measurement = models.DateTimeField("DateTime of last record", null=True)
+    last_time_alcohol_consumed = models.DateTimeField("Last alcohol consumption", null=True)
     address = models.CharField(default="No address", max_length=50)
 
     def __str__(self):
