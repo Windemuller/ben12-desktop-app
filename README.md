@@ -13,3 +13,7 @@ To update database models:
 1. Change ben12app/models.py
 2. run `py manage.py makemigrations ben12app`
 3. run `py manage.py migrate`
+
+To view API documentation:
+1. run `py manage.py runserver`
+2. navigate to <a>127.0.0.1:8000/swagger-ui</a>
