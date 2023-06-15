@@ -1,11 +1,15 @@
 from datetime import datetime
+
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import *
 
 
-class ClientAPIView(APIView):
+class ClientAPIView(GenericAPIView):
+    serializer_class = ClientSerializer
+
     def get(self, request, *args, **kwargs) -> Response:
         clients = Client.objects.all()
         serializer = ClientSerializer(clients, many=True)
@@ -27,7 +31,9 @@ class ClientAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ClientDetailView(APIView):
+class ClientDetailView(GenericAPIView):
+    serializer_class = ClientSerializer
+
     def get_client(self, client_id: int) -> Client or None:
         try:
             return Client.objects.get(id=client_id)
