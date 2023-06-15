@@ -1,0 +1,130 @@
+openapi: 3.0.3
+info:
+  title: Ben12 API
+  version: 0.0.1
+  description: API for the ben12 watch to connect to the backend
+paths:
+  /app/api/clients:
+    get:
+      operationId: app_api_clients_retrieve
+      tags:
+      - app
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+    post:
+      operationId: app_api_clients_create
+      tags:
+      - app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+  /app/api/clients/{client_id}:
+    get:
+      operationId: app_api_clients_retrieve_2
+      parameters:
+      - in: path
+        name: client_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - app
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+    delete:
+      operationId: app_api_clients_destroy
+      parameters:
+      - in: path
+        name: client_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - app
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Client:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          maxLength: 50
+        date_of_birth:
+          type: string
+          format: date-time
+        date_created:
+          type: string
+          format: date-time
+          title: Date of account creation
+        last_measurement:
+          type: string
+          format: date-time
+          nullable: true
+          title: DateTime of last record
+        last_time_alcohol_consumed:
+          type: string
+          format: date-time
+          nullable: true
+          title: Last alcohol consumption
+        address:
+          type: string
+          maxLength: 50
+      required:
+      - date_created
+      - date_of_birth
+      - id
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
