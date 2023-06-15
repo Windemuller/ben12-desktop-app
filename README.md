@@ -16,3 +16,6 @@ To update database models:
 To view API documentation:
 1. run `py manage.py runserver`
 2. navigate to <a>127.0.0.1:8000/swagger-ui</a>
+
+To update Swagger documentation:
+- run `py manage.py spectacular --color --file schema.yml`
