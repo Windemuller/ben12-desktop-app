@@ -73,19 +73,6 @@ class RecordDetailView(GenericAPIView):
         serializer = RecordSerializer(records)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def get_specific(self, request, client_id: int, record_id: int, *args, **kwargs) -> Response:
-        client_instance = get_client(client_id)
-        if not client_instance:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        try:
-            records = Record.objects.get(client=client_instance, id=record_id)
-        except Record.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        serializer = RecordSerializer(records)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
     def post(self, request, client_id: int, *args, **kwargs) -> Response:
         client_instance = get_client(client_id)
 
@@ -108,3 +95,16 @@ class RecordDetailView(GenericAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def get_specific(self, request, client_id: int, record_id: int, *args, **kwargs) -> Response:
+        client_instance = get_client(client_id)
+        if not client_instance:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            records = Record.objects.get(client=client_instance, id=record_id)
+        except Record.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = RecordSerializer(records)
+        return Response(serializer.data, status=status.HTTP_200_OK)
