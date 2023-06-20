@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn ben12app.wsgi
+web: gunicorn ben12server.wsgi
