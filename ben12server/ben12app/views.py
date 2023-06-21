@@ -60,7 +60,7 @@ class ClientDetailView(GenericAPIView):
 class RecordDetailView(GenericAPIView):
     serializer_class = RecordSerializer
 
-    def get(self, request, client_id: int, how_many: int = 10, *args, **kwargs) -> Response:
+    def get(self, request, client_id: int, how_many: int = 50, *args, **kwargs) -> Response:
         client_instance = get_client(client_id)
         if not client_instance:
             return Response(status=status.HTTP_404_NOT_FOUND)
