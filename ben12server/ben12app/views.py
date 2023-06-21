@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.db.models import F
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -66,7 +67,7 @@ class RecordDetailView(GenericAPIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         try:
-            records = Record.objects.filter(client=client_instance)[:how_many]
+            records = Record.objects.filter(client=client_instance).order_by(F('id').desc())[:how_many]
         except Record.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
