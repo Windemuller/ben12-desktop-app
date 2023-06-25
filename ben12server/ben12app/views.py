@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.db.models import F
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -60,13 +61,13 @@ class ClientDetailView(GenericAPIView):
 class RecordDetailView(GenericAPIView):
     serializer_class = RecordSerializer
 
-    def get(self, request, client_id: int, how_many: int = 10, *args, **kwargs) -> Response:
+    def get(self, request, client_id: int, how_many: int = 50, *args, **kwargs) -> Response:
         client_instance = get_client(client_id)
         if not client_instance:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         try:
-            records = Record.objects.filter(client=client_instance)[:how_many]
+            records = Record.objects.filter(client=client_instance).order_by(F('id').desc())[:how_many]
         except Record.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
