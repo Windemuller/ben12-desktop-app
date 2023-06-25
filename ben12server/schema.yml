@@ -86,6 +86,61 @@ paths:
       responses:
         '204':
           description: No response body
+  /app/api/records/{client_id}:
+    get:
+      operationId: app_api_records_retrieve
+      parameters:
+      - in: path
+        name: client_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - app
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+          description: ''
+    post:
+      operationId: app_api_records_create
+      parameters:
+      - in: path
+        name: client_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Record'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Record'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Record'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+          description: ''
 components:
   schemas:
     Client:
@@ -120,6 +175,31 @@ components:
       - date_created
       - date_of_birth
       - id
+    Record:
+      type: object
+      properties:
+        client:
+          type: integer
+        heartbeat:
+          type: integer
+        blood_oxygen_level:
+          type: number
+          format: double
+        alcohol_level:
+          type: number
+          format: double
+        date_time_recording:
+          type: string
+          format: date-time
+          title: Time of data recording
+        date_time_sent:
+          type: string
+          format: date-time
+          title: Time of data transmission
+      required:
+      - client
+      - date_time_recording
+      - date_time_sent
   securitySchemes:
     basicAuth:
       type: http

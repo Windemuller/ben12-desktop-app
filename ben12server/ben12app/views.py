@@ -103,3 +103,41 @@ class RecordDetailView(GenericAPIView):
 
         serializer = RecordSerializer(records)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class RecordAlcoholView(GenericAPIView):
+    serializer_class = RecordSerializer
+
+    def get(self, request, client_id: int, *args, **kwargs):
+        client_instance = get_client(client_id)
+        if not client_instance:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            records = Record.objects.last()
+        except Record.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        alcohol = getattr(records, 'alcohol_level')
+        response = Response(status=status.HTTP_200_OK)
+        response['alcohol_value'] = alcohol
+        return response
+
+
+class RecordHeartbeatView(GenericAPIView):
+    serializer_class = RecordSerializer
+
+    def get(self, request, client_id: int, *args, **kwargs):
+        client_instance = get_client(client_id)
+        if not client_instance:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            records = Record.objects.last()
+        except Record.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        heartbeat = getattr(records, 'heartbeat')
+        response = Response(status=status.HTTP_200_OK)
+        response['heartbeat_value'] = heartbeat
+        return response
