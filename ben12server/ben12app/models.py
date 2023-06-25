@@ -23,7 +23,7 @@ class Client(models.Model):
 
 class Record(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    heartbeat = models.IntegerField(default=-1)
+    heartbeat = models.FloatField(default=-1)
     blood_oxygen_level = models.FloatField(default=-1)
     alcohol_level = models.FloatField(default=-1)
     date_time_recording = models.DateTimeField("Time of data recording")
