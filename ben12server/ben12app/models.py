@@ -16,6 +16,7 @@ class Client(models.Model):
     last_measurement = models.DateTimeField("DateTime of last record", null=True)
     last_time_alcohol_consumed = models.DateTimeField("Last alcohol consumption", null=True)
     address = models.CharField(default="No address", max_length=50)
+    should_test_alcohol = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Client {self.id} name: {self.name}"

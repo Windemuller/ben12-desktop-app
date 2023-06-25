@@ -6,7 +6,7 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = ["id", "name", "date_of_birth", "date_created", "last_measurement", "last_time_alcohol_consumed",
-                  "address"]
+                  "address", "should_test_alcohol"]
 
 
 class RecordSerializer(serializers.ModelSerializer):

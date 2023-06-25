@@ -142,3 +142,38 @@ class RecordHeartbeatView(GenericAPIView):
         response = Response(status=status.HTTP_200_OK)
         response['heartbeat_value'] = heartbeat
         return response
+
+
+class ClientShouldTestView(GenericAPIView):
+    serializer_class = ClientSerializer
+
+    def put(self, request, client_id: int, *args, **kwargs):
+        client_instance = get_client(client_id)
+        if not client_instance:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        data = {
+            'id': getattr(client_instance, 'id'),
+            'name': getattr(client_instance, 'name'),
+            'date_of_birth': getattr(client_instance, 'date_of_birth'),
+            'date_created': getattr(client_instance, 'date_created'),
+            'address': getattr(client_instance, 'address'),
+            'should_test_alcohol': request.data.get('should_test_alcohol'),
+        }
+
+        serializer = ClientSerializer(instance=client_instance, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def get(self, request, client_id: int, *args, **kwargs):
+        client_instance = get_client(client_id)
+        if not client_instance:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        should_test = getattr(client_instance, 'should_test_alcohol')
+        response = Response(status=status.HTTP_200_OK)
+        response['client_should_test'] = should_test
+        return response

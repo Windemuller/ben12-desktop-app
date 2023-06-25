@@ -8,4 +8,5 @@ urlpatterns = [
     path('api/records/<int:client_id>', views.RecordDetailView.as_view()),
     path('api/records/<int:client_id>/alcohol', views.RecordAlcoholView.as_view()),
     path('api/records/<int:client_id>/heartbeat', views.RecordHeartbeatView.as_view()),
+    path('api/clients/<int:client_id>/should_test', views.ClientShouldTestView.as_view()),
 ]
